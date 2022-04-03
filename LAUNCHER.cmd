@@ -1,7 +1,4 @@
 
-::========================================================================================================================================
-
-cls
 ECHO.
 ECHO =============================
 ECHO Running Admin shell
@@ -184,10 +181,59 @@ mode con cols=98 lines=32
 cls
 echo
 echo This section is still a work in progress, STAY TUNED!
-@echo off
-Powershell -ExecutionPolicy Bypass Set-MpPreference -DisableRealtimeMonitoring 1
-aria2c https://raw.githubusercontent.com/coff33ninja/AIO/main/TOOLS/6.EXTRAS/User_profile_Backup_and_Restore.ps1 -d, --dir=%USERPROFILE%\AppData\Local\Temp\AIO\ --allow-overwrite="true" --disable-ipv6
-Powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\AppData\Local\Temp\AIO\User_profile_Backup_and_Restore.ps1"  -verb runas
+echo:
+echo Important data that will be backed up are:
+echo C:\User\Your username - Various folders including Desktop,
+echo Documents, Downloads, Music, Pictures, Videos, and more.
+echo:   
+echo C:\ProgramData - Folders containing some settings and
+echo logs for many of your programs.
+echo:
+echo To optimize overall performance it is recommended to backup data to an external 
+echo location, to prevent the loss or coruption of data if the computer is turned off.
+pause
+cls
+:Userlocation
+@ECHO off
+mode con cols=98 lines=32
+setlocal enabledelayedexpansion
+Title Selecting user profile
+echo Selecting user profile
+SET "PScommand="POWERSHELL Add-Type -AssemblyName System.Windows.Forms; $FolderBrowse = New-Object System.Windows.Forms.OpenFileDialog -Property @{ValidateNames = $false;CheckFileExists = $false;RestoreDirectory = $true;FileName = 'Selected Folder';};$null = $FolderBrowse.ShowDialog();$FolderName = Split-Path -Path $FolderBrowse.FileName;Write-Output $FolderName""
+FOR /F "usebackq tokens=*" %%Q in (`%PScommand%`) DO (
+    ECHO %%Q
+) > C:\userlocation.txt
+
+for /f "tokens=*" %%x in ( C:\userlocation.txt) do (
+set loc[]=%%x
+)
+echo %loc[]%
+echo User profile location Selected
+cls
+Title Select where to save user profile
+echo Saving user profile
+SET "PScommand="POWERSHELL Add-Type -AssemblyName System.Windows.Forms; $FolderBrowse = New-Object System.Windows.Forms.OpenFileDialog -Property @{ValidateNames = $false;CheckFileExists = $false;RestoreDirectory = $true;FileName = 'Selected Folder';};$null = $FolderBrowse.ShowDialog();$FolderName = Split-Path -Path $FolderBrowse.FileName;Write-Output $FolderName""
+FOR /F "usebackq tokens=*" %%Q in (`%PScommand%`) DO (
+    ECHO %%Q
+) > C:\userdestunation.txt
+
+for /f "tokens=*" %%x in ( C:\userdestunation.txt) do (
+set des[]=%%x
+)
+echo %des[]%
+echo User profile destination Selected
+cls
+echo You are now about to copy %loc[]% to %des[]%
+pause & goto progress
+cls
+
+:progress
+Title Progress
+mode con cols=98 lines=32
+Robocopy "%loc[]%" "%des[]%" /MIR /XA:SH /XD AppData /XJD /R:5 /W:15 /MT:32
+pause
+
 echo.The operation completed successfully.
+echo For restoration just rerun this section again.
 pause & goto BACKUP_CONFIG
 ::========================================================================================================================================
