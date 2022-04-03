@@ -1,4 +1,5 @@
-
+@echo OFF
+setlocal
 ECHO.
 ECHO =============================
 ECHO Running Admin shell
@@ -42,7 +43,7 @@ if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 :BACKUP_CONFIG
 color 0f
 mode con cols=98 lines=32
-title  BACKUP NETWORK CONFIGURATION
+title  BACKUP MAIN MENU
 cls
 
 echo:
@@ -194,10 +195,9 @@ echo location, to prevent the loss or coruption of data if the computer is turne
 pause
 cls
 :Userlocation
-@ECHO off
-mode con cols=98 lines=32
-setlocal enabledelayedexpansion
+color 0f
 Title Selecting user profile
+mode con cols=98 lines=32
 echo Selecting user profile
 SET "PScommand="POWERSHELL Add-Type -AssemblyName System.Windows.Forms; $FolderBrowse = New-Object System.Windows.Forms.OpenFileDialog -Property @{ValidateNames = $false;CheckFileExists = $false;RestoreDirectory = $true;FileName = 'Selected Folder';};$null = $FolderBrowse.ShowDialog();$FolderName = Split-Path -Path $FolderBrowse.FileName;Write-Output $FolderName""
 FOR /F "usebackq tokens=*" %%Q in (`%PScommand%`) DO (
