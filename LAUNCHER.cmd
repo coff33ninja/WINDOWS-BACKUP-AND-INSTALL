@@ -93,10 +93,10 @@ Title WIFI BACKUP
 mode con cols=98 lines=32
 cls
 echo
-md C:\AIO_BACKUP\NETWORK\WIFI
-cd C:\AIO_BACKUP\NETWORK\WIFI
-echo This will backup the WiFi config to C:\AIO_BACKUP\NETWORK\WIFI
-netsh wlan export profile key=clear folder=C:\AIO_BACKUP\NETWORK\WIFI
+md C:\BACKUP\NETWORK\WIFI
+cd C:\BACKUP\NETWORK\WIFI
+echo This will backup the WiFi config to C:\BACKUP\NETWORK\WIFI
+netsh wlan export profile key=clear folder=C:\BACKUP\NETWORK\WIFI
 start .
 pause & goto BACKUP_CONFIG
 
@@ -108,9 +108,9 @@ Title WIFI RESTORE
 mode con cols=98 lines=32
 cls
 echo
-cd C:\AIO_BACKUP\NETWORK\WIFI
+cd C:\BACKUP\NETWORK\WIFI
 dir
-netsh wlan add profile filename="C:\AIO_BACKUP\NETWORK\WIFI\%WIFINAME%.xml" user=all
+netsh wlan add profile filename="C:\BACKUP\NETWORK\WIFI\%WIFINAME%.xml" user=all
 echo Enter complete file name excluding .xml
 echo exapmle: WIFI-TSUNAMI
 echo the .xml will be added automatically
@@ -125,10 +125,10 @@ Title NETWORK INTERFACES CONFIGURATION BACKUP
 mode con cols=98 lines=32
 cls
 echo
-md C:\AIO_BACKUP\NETWORK\Interfaces
-cd C:\AIO_BACKUP\NETWORK\Interfaces
-echo This section will backupp all the network interfaces confiuration to C:\AIO_BACKUP\NETWORK\Interfaces
-netsh interface dump > C:\AIO_BACKUP\NETWORK\Interfaces\netcfg.txt
+md C:\BACKUP\NETWORK\Interfaces
+cd C:\BACKUP\NETWORK\Interfaces
+echo This section will backupp all the network interfaces confiuration to C:\BACKUP\NETWORK\Interfaces
+netsh interface dump > C:\BACKUP\NETWORK\Interfaces\netcfg.txt
 start .
 pause & goto BACKUP_CONFIG
 
@@ -140,10 +140,10 @@ Title NETWORK INTERFACES CONFIGURATION RESTORE
 mode con cols=98 lines=32
 cls
 echo
-cd C:\AIO_BACKUP\NETWORK\Interfaces
+cd C:\BACKUP\NETWORK\Interfaces
 dir
-echo This section will restore all the network interfaces confiuration from C:\AIO_BACKUP\NETWORK\Interfaces
-netsh exec C:\AIO_BACKUP\NETWORK\Interfaces\netcfg.txt
+echo This section will restore all the network interfaces confiuration from C:\BACKUP\NETWORK\Interfaces
+netsh exec C:\BACKUP\NETWORK\Interfaces\netcfg.txt
 start .
 pause & goto BACKUP_CONFIG
 
@@ -155,9 +155,9 @@ Title DRIVERS BACKUP
 mode con cols=98 lines=32
 cls
 echo
-md C:\AIO_BACKUP\DRIVERS_EXPORT
-cd C:\AIO_BACKUP\DRIVERS_EXPORT
-powershell.exe Dism /Online /Export-Driver /Destination:C:\AIO_BACKUP\DRIVERS_EXPORT
+md C:\BACKUP\DRIVERS_EXPORT
+cd C:\BACKUP\DRIVERS_EXPORT
+powershell.exe Dism /Online /Export-Driver /Destination:C:\BACKUP\DRIVERS_EXPORT
 echo.The operation completed successfully.
 pause & goto BACKUP_CONFIG
 
@@ -169,9 +169,9 @@ Title DRIVERS RESTORE
 mode con cols=98 lines=32
 cls
 echo
-cd C:\AIO_BACKUP\DRIVERS_EXPORT
+cd C:\BACKUP\DRIVERS_EXPORT
 dir
-powershell.exe Dism /Online /Add-Driver /Driver:C:\AIO_BACKUP\DRIVERS_EXPORT
+powershell.exe Dism /Online /Add-Driver /Driver:C:\BACKUP\DRIVERS_EXPORT
 echo.The operation completed successfully.
 pause & goto BACKUP_CONFIG
 
